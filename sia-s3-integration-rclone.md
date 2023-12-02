@@ -240,7 +240,7 @@ d) Delete this remote
 y/e/d> y
 ```
 
-14. You have now successfully created a remote for `renterd`. You can now type in `q` and press `Enter` to quit the configuration wizard.
+You have now successfully created a remote for `renterd`. You can now type in `q` and press `Enter` to quit the configuration wizard.
 
 ## Step 4: Mount the filesystem
 
@@ -257,8 +257,12 @@ To run rclone mount on Windows, you will first need to download and install [Win
 Once you have installed `WinFsp`, you can then mount your `renterd` remote and assign it the drive letter `X:` using the following command.
 
 ```
-rclone mount renterd:/default X:
+rclone mount renterd:/default X: --vfs-cache-mode full
 ```
+
+{% hint style="info" %}
+If you would like to run `rclone` as a background service so you can use the `--daemon` flag.
+{% endhint %}
 
 If you have configured everything properly, you should see a confirmation that `rclone` has successfully started.
 
