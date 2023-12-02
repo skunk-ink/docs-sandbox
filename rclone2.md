@@ -8,15 +8,19 @@ Rclone is a command-line program to manage files on cloud storage. Rclone is ver
 
 Rclone [mounts](https://rclone.org/commands/rclone\_mount/) any local, cloud, or virtual filesystem as a disk on Windows, Mac OS, Linux, and FreeBSD and serves these over [SFTP](https://rclone.org/commands/rclone\_serve\_sftp/), [HTTP](https://rclone.org/commands/rclone\_serve\_http/), [WebDAV](https://rclone.org/commands/rclone\_serve\_webdav/), [FTP](https://rclone.org/commands/rclone\_serve\_ftp/), and [DLNA](https://rclone.org/commands/rclone\_serve\_dlna/). The mount lets us interact with our Sia `renterd` storage as a regular filesystem. We can mount `renterd` storage to a server’s filesystem or even a local laptop’s filesystem.
 
-{% tabs %}
-{% tab title="Windows" %}
-## Step 1: Enable `renterd` S3 API
-
 {% hint style="warning" %}
 This guide requires a working installation of `renterd`. If you have not already installed `renterd`, you will need to do so before continuing.
 
 [**📖 `renterd` Installation Guide**](https://docs.sia.tech/v/current/renting/setting-up-renterd)
 {% endhint %}
+
+{% tabs %}
+{% tab title="Windows" %}
+For the purpose of this guide, we will start by uploading a file to the Sia Network using the `renterd` Web UI. This will be used later to help us verify we have configured things properly.
+
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-05 (4).png" alt=""><figcaption><p>A file uploaded to the Sia Network using <code>renterd</code></p></figcaption></figure>
+
+## Step 1: Enable `renterd` S3 API
 
 Before setting up `rclone` we will need to enable `renterd`'s S3 interface if you have not done so already. This is done by editing your `renterd.yml` file. If you are unsure where your `renterd.yml` is installed, please refer to the correct [installation guide](https://docs.sia.tech/v/current/renting/setting-up-renterd) for your system.
 
@@ -35,6 +39,8 @@ Make sure to replace `your_renterd_access_key` and `your_renterd_secret_key` wit
 {% hint style="warning" %}
 If you are running `renterd` in a docker container, you will need to override the address via docker: `command: -s3.address:9985`
 {% endhint %}
+
+
 
 ## Step 2: Install rclone
 
@@ -95,7 +101,7 @@ Option provider.
 Choose your S3 provider.
 Choose a number from below, or type in your own value.
 ...
-provider> other
+provider> Other
 ```
 
 You will now be asked to select how you would like to supply your S3 credentials. Since we are supplying a `access_key_id` and `secret_access_key` we will not be using environment variables. Type in `false` or simply press `Enter` to use the default.
@@ -147,7 +153,7 @@ Option endpoint.
 Endpoint for S3 API.
 Required when using an S3 clone.
 Enter a value. Press Enter to leave empty.
-endpoint> localhost:9985
+endpoint> http://localhost:9985
 ```
 
 When asked for a `Location constraint` press `Enter` to leave it empty.
@@ -206,11 +212,13 @@ y/e/d> y
 
 You have now successfully created a remote for `renterd`. You can now type in `q` and press `Enter` to quit the configuration wizard.
 
+
+
 ## Step 4: Mount the filesystem
 
 Now that `renterd` is running and `rclone` is configured with `renterd` as a remote, we can mount the `renterd` storage to the filesystem.
 
-To run rclone mount on Windows, you will first need to download and install [WinFsp](https://winfsp.dev/rel/).
+To run `rclone mount` on Windows, you will first need to download and install [WinFsp](https://winfsp.dev/rel/).
 
 Once you have installed `WinFsp`, you can then mount your `renterd` remote and assign it the drive letter `X:` using the following command.
 
@@ -219,34 +227,28 @@ rclone mount renterd:/default X: --vfs-cache-mode full
 ```
 
 {% hint style="info" %}
-If you would like to run `rclone` as a background service so you can use the `--daemon` flag.
+On Windows you can run `rclone mount` in foreground only, the `--daemon` flag is ignored if used.
 {% endhint %}
 
 If you have configured everything properly, you should see a confirmation that `rclone` has successfully started.
 
-<figure><img src=".gitbook/assets/rclone-setup-win-mount-01.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-01 (1).png" alt=""><figcaption></figcaption></figure>
 
 To confirm you have mounted your Sia storage correctly, you should see a new `X:` drive on your filesystem.
 
-<figure><img src=".gitbook/assets/rclone-setup-win-mount-02.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-02 (1).png" alt=""><figcaption></figcaption></figure>
 
 You can now access your files on Sia directly from your File Explorer.
 
-<figure><img src=".gitbook/assets/rclone-setup-win-mount-03.png" alt=""><figcaption></figcaption></figure>
-
-<figure><img src=".gitbook/assets/rclone-setup-win-mount-05 (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-03 (1).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Mac OS" %}
+For the purpose of this guide, we will start by uploading a file to the Sia Network using the `renterd` Web UI. This will be used later to help us verify we have configured things properly.
+
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-05 (4).png" alt=""><figcaption><p>A file uploaded to the Sia Network using <code>renterd</code></p></figcaption></figure>
+
 ## Step 1: Enable `renterd` S3 API
-
-{% hint style="warning" %}
-This guide requires a working installation of `renterd`. If you have not already installed `renterd`, you will need to do so before continuing.
-
-[**📖 `renterd` Installation Guide**](https://docs.sia.tech/v/current/renting/setting-up-renterd)
-{% endhint %}
-
-
 
 Before setting up `rclone` we will need to enable `renterd`'s S3 interface if you have not done so already. This is done by editing your `renterd.yml` file. If you are unsure where your `renterd.yml` is installed, please refer to the correct [installation guide](https://docs.sia.tech/v/current/renting/setting-up-renterd) for your system.
 
@@ -294,8 +296,6 @@ rclone config
 If the command does not work, you may need to restart your terminal first. To do so, close the current `Terminal` and use the same method you used abov e in Step 2 to open a new one.
 {% endhint %}
 
-
-
 When the configuration wizard loads, enter `n` to create a new remote.
 
 ```shell-session
@@ -305,16 +305,12 @@ q) Quit config
 n/s/q> n
 ```
 
-
-
 Next, name your remote. You can name it anything you want, but for this guide, we will be naming it `renterd`.
 
 ```shell-session
 Enter name for new remote.
 name> renterd
 ```
-
-
 
 You will now be given a list of `Storage` options. Type in `s3` and press `Enter`.
 
@@ -326,8 +322,6 @@ Choose a number from below, or type in your own value.
 Storage> s3
 ```
 
-
-
 Next, you will be asked to select a `Provider`. Type in `other` and press `Enter`
 
 ```shell-session
@@ -335,10 +329,8 @@ Option provider.
 Choose your S3 provider.
 Choose a number from below, or type in your own value.
 ...
-provider> other
+provider> Other
 ```
-
-
 
 You will now be asked to select how you would like to supply your S3 credentials. Since we are supplying a `access_key_id` and `secret_access_key` we will not be using environment variables. Type in `false` or simply press `Enter` to use the default.
 
@@ -351,8 +343,6 @@ Press Enter for the default (false).
 ...
 env_auth> false
 ```
-
-
 
 For the next two questions, you will be prompted for your `access_key_id` and `secret_access_key` that you set in Step 1.
 
@@ -372,8 +362,6 @@ Enter a value. Press Enter to leave empty.
 secret_access_key> your_renterd_secret_key
 ```
 
-
-
 When prompted for your `Region` press `Enter` to leave it blank.
 
 ```
@@ -386,8 +374,6 @@ Press Enter to leave empty.
 region>
 ```
 
-
-
 You will now be asked to enter an `Endpoint`. This should be the same as the `address` parameter we configured in our `renterd.yml` for Step 1.
 
 ```
@@ -395,10 +381,8 @@ Option endpoint.
 Endpoint for S3 API.
 Required when using an S3 clone.
 Enter a value. Press Enter to leave empty.
-endpoint> localhost:9985
+endpoint> http://localhost:9985
 ```
-
-
 
 When asked for a `Location constraint` press `Enter` to leave it empty.
 
@@ -409,8 +393,6 @@ Leave blank if not sure. Used when creating buckets only.
 Enter a value. Press Enter to leave empty.
 location_constraint>
 ```
-
-
 
 Next, you will be asked to select an `ACL` from the list provided. Type in `private` and press `Enter`.
 
@@ -440,8 +422,6 @@ n) No (default)
 y/n> n
 ```
 
-
-
 You will now be given a summary of your new remote. If they are correct, you can type in `y` and press `Enter` to save your remote.
 
 ```
@@ -460,55 +440,49 @@ d) Delete this remote
 y/e/d> y
 ```
 
-
-
 You have now successfully created a remote for `renterd`. You can now type in `q` and press `Enter` to quit the configuration wizard.
 
 ## Step 4: Mount the filesystem
 
+Now that `renterd` is running and `rclone` is configured with `renterd` as a remote, we can mount the `renterd` storage to the filesystem.
+
 {% hint style="warning" %}
-This tutorial is focused on Linux. For Windows and MacOS, please visit the official documentation: [https://rclone.org/commands/rclone\_mount/](https://rclone.org/commands/rclone\_mount/)
+Before you can use `rclone mount` on Mac OS, you will need to download and install [MacFUSE](https://github.com/osxfuse/osxfuse/releases/latest).
 {% endhint %}
 
-Now that `renterd` is running and `rclone` is configured with `renterd` as a remote, we can mount the `renterd` storage to the filesystem.
+
 
 Start by creating an empty directory on your filesystem that we will use as the mount point. Once the mount is set up, this is where all the files will appear.
 
+<figure><img src=".gitbook/assets/Screen Shot 2023-12-02 at 7.11.47 AM.png" alt=""><figcaption></figcaption></figure>
+
+Next, we will mount our `renterd` remote using the folder we just created. Adding the `--daemon` flag allows `rclone` to maintain the mount point while running in the background.
+
 ```shell-session
-mkdir ~/root/files
+rclone mount renterd:/default ~/renterd_files/ --vfs-cache-mode full --daemon
 ```
 
-Next, create the mount. Adding the `--daemon` flag runs the mount in the background.
+<figure><img src=".gitbook/assets/rclone-new-config-macos-03 (1).png" alt=""><figcaption></figcaption></figure>
+
+To confirm you have mounted your Sia storage correctly, you should now be able to access your files using the `Finder` app.
+
+<figure><img src=".gitbook/assets/Screen Shot 2023-12-02 at 6.33.10 AM.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src=".gitbook/assets/rclone-new-config-macos-06.png" alt=""><figcaption></figcaption></figure>
+
+To later unmount the remote you can use `umount` as follows.
 
 ```shell-session
-rclone mount renterd:/default /mnt/files \
-  --allow-other \
-  --vfs-cache-mode full \
-  --daemon
-```
-
-To later unmount the remote:
-
-```shell-session
-fusermount -u /mnt/files
-```
-
-You should now be able to navigate your files as a filesystem. Files copied into the directory tree will be stored on Sia.
-
-```shell-session
-$ ls /mnt/files/
-Screenshot.png
+umount ~/renterd_files/
 ```
 {% endtab %}
 
 {% tab title="Linux" %}
+For the purpose of this guide, we will start by uploading a file to the Sia Network using the `renterd` Web UI. This will be used later to help us verify we have configured things properly.
+
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-05 (4).png" alt=""><figcaption><p>A file uploaded to the Sia Network using <code>renterd</code></p></figcaption></figure>
+
 ## Step 1: Enable `renterd` S3 API
-
-{% hint style="warning" %}
-This guide requires a working installation of `renterd`. If you have not already installed `renterd`, you will need to do so before continuing.
-
-[**📖 `renterd` Installation Guide**](https://docs.sia.tech/v/current/renting/setting-up-renterd)
-{% endhint %}
 
 Before setting up `rclone` we will need to enable `renterd`'s S3 interface if you have not done so already. This is done by editing your `renterd.yml` file. If you are unsure where your `renterd.yml` is installed, please refer to the correct [installation guide](https://docs.sia.tech/v/current/renting/setting-up-renterd) for your system.
 
@@ -535,11 +509,11 @@ Press `Ctrl + Alt + T` to open a new `Terminal` window and run the following com
 <pre class="language-console"><code class="lang-console"><strong>sudo apt install rclone
 </strong></code></pre>
 
-<figure><img src=".gitbook/assets/rclone-new-config-linux-01.png" alt=""><figcaption></figcaption></figure>
-
 {% hint style="info" %}
 If you are unable to open a `Terminal` using the above method, try one of the other methods [listed here](https://www.geeksforgeeks.org/how-to-open-terminal-in-linux/).
 {% endhint %}
+
+<figure><img src=".gitbook/assets/rclone-new-config-linux-01.png" alt=""><figcaption></figcaption></figure>
 
 ## Step 3: Configuring rclone
 
@@ -586,7 +560,7 @@ Option provider.
 Choose your S3 provider.
 Choose a number from below, or type in your own value.
 ...
-provider> other
+provider> Other
 ```
 
 You will now be asked to select how you would like to supply your S3 credentials. Since we are supplying a `access_key_id` and `secret_access_key` we will not be using environment variables. Type in `false` or simply press `Enter` to use the default.
@@ -638,7 +612,7 @@ Option endpoint.
 Endpoint for S3 API.
 Required when using an S3 clone.
 Enter a value. Press Enter to leave empty.
-endpoint> localhost:9985
+endpoint> http://localhost:9985
 ```
 
 When asked for a `Location constraint` press `Enter` to leave it empty.
@@ -704,16 +678,13 @@ Now that `renterd` is running and `rclone` is configured with `renterd` as a rem
 Start by creating an empty directory on your filesystem that we will use as the mount point. Once the mount is set up, this is where all the files will appear.
 
 ```shell-session
-mkdir /mnt/renterd_files
+mkdir ~/renterd_files
 ```
 
 Next, create the mount. Adding the `--daemon` flag runs the mount in the background.
 
 ```shell-session
-rclone mount renterd:/default /mnt/renterd_files \
-  --allow-other \
-  --vfs-cache-mode full \
-  --daemon
+rclone mount renterd:/default ~/renterd_files/ --vfs-cache-mode full --daemon
 ```
 
 To later unmount the remote:
@@ -737,4 +708,4 @@ For more details and system-specific instructions, visit the official rclone mou
 
 ## All done.
 
-We used `renterd` and rclone to mount our Sia storage as a filesystem. This is a great way to use Sia for your files, especially for use cases such as large video or media libraries that take up many terabytes of space but you would still like available for streaming at any moment. If this guide has been engaging, check out our website to read more about Sia and `renterd`, and join our Discord, where the team and community can answer your questions!
+We successfully used `renterd` and rclone to mount our Sia storage as a filesystem. This is a great way to use Sia for your files, especially for use cases such as large video or media libraries that take up many terabytes of space but you would still like available for streaming at any moment. If this guide has been engaging, check out our website to read more about Sia and `renterd`, and join our Discord, where the team and community can answer your questions!
