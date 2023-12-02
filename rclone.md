@@ -22,7 +22,7 @@ This guide requires a working install of `renterd`. If you have not already inst
 
 Before setting up `rclone` we will need to enable `renterd`'s S3 interface if you have not done so already. This is done by editing your `renterd.yml` file. If you are unsure where your `renterd.yml` is installed, please refer to the correct [installation guide](https://docs.sia.tech/v/current/renting/setting-up-renterd) for your system.
 
-Once you have located your `renterd.yml` file, open it with your preferred text editor and add the following:
+Once you have located your `renterd.yml` file, open it with your preferred text editor, and add the following:
 
 ```yaml
 s3:
@@ -46,7 +46,7 @@ If you are running `renterd` in a docker container, you will need to override th
 
 <div data-full-width="false">
 
-<figure><img src=".gitbook/assets/rclone-new-config-win-01 (4).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/rclone-new-config-win-01 (10).png" alt="" width="375"><figcaption></figcaption></figure>
 
 </div>
 
@@ -56,10 +56,10 @@ If you are running `renterd` in a docker container, you will need to override th
 winget install Rclone.Rclone
 ```
 
-<figure><img src=".gitbook/assets/rclone-new-config-win-02 (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/rclone-new-config-win-02 (10).png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
-{% tab title="MacOS" %}
+{% tab title="Mac OS" %}
 1.  Press `CMD + Space` to open Spotlight search and open a`terminal`.
 
     <figure><img src=".gitbook/assets/rclone-new-config-macos-01.png" alt="" width="563"><figcaption></figcaption></figure>
@@ -80,13 +80,15 @@ sudo -v ; curl https://rclone.org/install.sh | sudo bash
 <pre class="language-console"><code class="lang-console"><strong>sudo apt install rclone
 </strong></code></pre>
 
+{% hint style="info" %}
+If you are unable to open a `Terminal` using the above method, try one of the other methods [listed here](https://www.geeksforgeeks.org/how-to-open-terminal-in-linux/).
+{% endhint %}
+
 <figure><img src=".gitbook/assets/rclone-new-config-linux-01.png" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 {% endtabs %}
 
-
-
-### Step 3: Configure rclone
+### Step 3: Configuring rclone
 
 Now that we have `rclone` installed, we can use the interactive configuration wizard to set up a new remote. To do so, run the following command from the Terminal.
 
@@ -95,7 +97,7 @@ rclone config
 ```
 
 {% hint style="info" %}
-If the command does not work, you may need to restart your terminal first. To do so use the same method as you did above in Step 2.
+If the command does not work, you may need to restart your terminal first. To do so close the current `Terminal` and use the same method you used abov e in Step 2 to open a new one.
 {% endhint %}
 
 When the configuration wizard loads, enter `n` to create a new remote.
@@ -222,7 +224,7 @@ n) No (default)
 y/n> n
 ```
 
-You will now be given a summary of your new remotes settings. If your settings match, you can type in `y` and press `Enter` to save your remote.
+You will now be given a summary of your new remote. If they are correct you can type in `y` and press `Enter` to save your remote.
 
 ```
 Configuration complete.
@@ -252,7 +254,19 @@ Now that `renterd` is running and `rclone` is configured with `renterd` as a rem
 
 {% tabs %}
 {% tab title="Windows" %}
+To run rclone mount on Windows, you will first need to download and install [WinFsp](https://winfsp.dev/rel/).
 
+Once you have installed `WinFsp`, you can then mount your `renterd` remote and assign it the drive letter `X:` using the following command.
+
+```
+rclone mount renterd:/default X:
+```
+
+
+
+
+
+fgh
 {% endtab %}
 
 {% tab title="Mac OS" %}
@@ -315,6 +329,14 @@ Screenshot.png
 ```
 {% endtab %}
 {% endtabs %}
+
+
+
+
+
+
+
+
 
 {% hint style="info" %}
 For more details and system-specific instructions, visit the official rclone mount documentation: [https://rclone.org/commands/rclone\_mount](https://rclone.org/commands/rclone\_mount/)
