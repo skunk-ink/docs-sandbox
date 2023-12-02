@@ -1,4 +1,4 @@
 # Table of contents
 
 * [Page](README.md)
-* [rclone](rclone.md)
+* [Sia S3 Integration: rclone](sia-s3-integration-rclone.md)

@@ -1,8 +1,6 @@
-# rclone
+# Sia S3 Integration: rclone
 
-## Sia S3 Integration: rclone
-
-### What is rclone?
+## What is rclone?
 
 Rclone is a command-line program to manage files on cloud storage. Rclone is very feature-rich and integrates with dozens of cloud storage providers, including any S3-compatible object stores like Sia `renterd`.
 
@@ -10,7 +8,7 @@ Rclone is a command-line program to manage files on cloud storage. Rclone is ver
 
 Rclone [mounts](https://rclone.org/commands/rclone\_mount/) any local, cloud, or virtual filesystem as a disk on Windows, macOS, Linux, and FreeBSD and serves these over [SFTP](https://rclone.org/commands/rclone\_serve\_sftp/), [HTTP](https://rclone.org/commands/rclone\_serve\_http/), [WebDAV](https://rclone.org/commands/rclone\_serve\_webdav/), [FTP](https://rclone.org/commands/rclone\_serve\_ftp/), and [DLNA](https://rclone.org/commands/rclone\_serve\_dlna/). The mount lets us interact with our Sia `renterd` storage as a regular filesystem. We can mount `renterd` storage to a server’s filesystem or even a local laptop’s filesystem.
 
-### Step 1: Enable `renterd` S3 API
+## Step 1: Enable `renterd` S3 API
 
 Start by setting up `renterd` on your system. Follow the setup guide for your operating system.
 
@@ -38,7 +36,7 @@ Make sure to replace `your_renterd_access_key` and `your_renterd_secret_key` wit
 If you are running `renterd` in a docker container, you will need to override the address via docker: `command: -s3.address:9985`
 {% endhint %}
 
-### Step 2: Install rclone
+## Step 2: Install rclone
 
 {% tabs %}
 {% tab title="Windows" %}
@@ -88,7 +86,7 @@ If you are unable to open a `Terminal` using the above method, try one of the ot
 {% endtab %}
 {% endtabs %}
 
-### Step 3: Configuring rclone
+## Step 3: Configuring rclone
 
 Now that we have `rclone` installed, we can use the interactive configuration wizard to set up a new remote. To do so, run the following command from the Terminal.
 
@@ -244,7 +242,7 @@ y/e/d> y
 
 14. You have now successfully created a remote for `renterd`. You can now type in `q` and press `Enter` to quit the configuration wizard.
 
-### Step 4: Mount the filesystem
+## Step 4: Mount the filesystem
 
 {% hint style="warning" %}
 This tutorial is focused on Linux. For Windows and MacOS, please visit the official documentation: [https://rclone.org/commands/rclone\_mount/](https://rclone.org/commands/rclone\_mount/)
@@ -262,11 +260,19 @@ Once you have installed `WinFsp`, you can then mount your `renterd` remote and a
 rclone mount renterd:/default X:
 ```
 
+If you have configured everything properly, you should see a confirmation that `rclone` has successfully started.
 
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-01.png" alt=""><figcaption><p>Mounting the <code>renterd</code> remote with <code>rclone</code>.</p></figcaption></figure>
 
+To confirm you have mounted your Sia storage correctly, you should see a new `X:` drive on your filesystem.
 
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-02.png" alt=""><figcaption><p>Sia storage mounted as <code>X:</code> drive.</p></figcaption></figure>
 
-fgh
+You can now access your files on Sia directly from your File Explorer.
+
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-03.png" alt=""><figcaption><p>View your files directly from File Explorer.</p></figcaption></figure>
+
+<figure><img src=".gitbook/assets/rclone-setup-win-mount-05 (1).png" alt=""><figcaption><p>Your file as seen in the <code>renterd</code> Web UI.</p></figcaption></figure>
 {% endtab %}
 
 {% tab title="Mac OS" %}
@@ -329,14 +335,6 @@ Screenshot.png
 ```
 {% endtab %}
 {% endtabs %}
-
-
-
-
-
-
-
-
 
 {% hint style="info" %}
 For more details and system-specific instructions, visit the official rclone mount documentation: [https://rclone.org/commands/rclone\_mount](https://rclone.org/commands/rclone\_mount/)
