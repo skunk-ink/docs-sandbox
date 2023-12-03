@@ -1,4 +1,10 @@
-# rclone2
+---
+description: >-
+  A step-by-step guide for setting up rclone with renterd for Windows, Mac OS,
+  and Linux.
+---
+
+# rclone
 
 ## What is rclone?
 
@@ -705,27 +711,26 @@ Now that `renterd` is running and `rclone` is configured with `renterd` as a rem
 
 Start by creating an empty directory on your filesystem that we will use as the mount point. Once the mount is set up, this is where all the files will appear.
 
-```shell-session
-mkdir ~/renterd_files
-```
+<figure><img src=".gitbook/assets/rclone-setup-linux-file-explorer-new-dir.png" alt=""><figcaption></figcaption></figure>
 
-Next, create the mount. Adding the `--daemon` flag runs the mount in the background.
+Next, we will mount our `renterd` remote using the folder we just created. Adding the `--daemon` flag allows `rclone` to maintain the mount point while running in the background.
 
 ```shell-session
 rclone mount renterd:/default ~/renterd_files/ --vfs-cache-mode full --daemon
 ```
 
-To later unmount the remote:
+<figure><img src=".gitbook/assets/rclone-setup-linux-mount-dir.png" alt=""><figcaption></figcaption></figure>
+
+To confirm you have mounted your Sia storage correctly, you should now be able to access your files using the `Files` app. It should also appear as a mounted directory in your sidebar.
+
+<figure><img src=".gitbook/assets/rclone-setup-linux-file-explorer-mounted-dir.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src=".gitbook/assets/rclone-setup-linux-file-explorer-mounted-dir-success.png" alt=""><figcaption></figcaption></figure>
+
+To later unmount the remote you can use `fusermount` as follows.
 
 ```shell-session
-fusermount -u /mnt/renterd_files
-```
-
-You should now be able to navigate your files as a filesystem. Files copied into the directory tree will be stored on Sia.
-
-```shell-session
-$ ls /mnt/renterd_files
-Screenshot.png
+fusermount -u ~/renterd_files
 ```
 {% endtab %}
 {% endtabs %}
