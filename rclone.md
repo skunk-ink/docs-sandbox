@@ -8,6 +8,10 @@ description: >-
 
 ## What is rclone?
 
+[Step 1](rclone.md#step-1-enable-renterd-s3-api)&#x20;
+
+[Step 2](rclone.md#step-2-install-rclone)
+
 Rclone is a command-line program to manage files on cloud storage. Rclone is very feature-rich and integrates with dozens of cloud storage providers, including any S3-compatible object stores like Sia `renterd`.
 
 > Users call rclone _"The Swiss army knife of cloud storage"_, and _"Technology indistinguishable from magic"_.
